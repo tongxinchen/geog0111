@@ -6,11 +6,9 @@ extra:
     link: https://hub.docker.com/r/proflewis/geog0111
   - icon: fontawesome/brands/github
     link: https://github.com/UCL-EO/geog0111
-#google_analytics:
-#- UA-1347772-1
-#- auto
-#markdown_extensions:
-#- meta
+google_analytics:
+- UA-1347772-1
+- auto
 nav:
 - 000_Running_options.md
 - 001_Notebook_use.md
@@ -24,40 +22,34 @@ nav:
 - 015_Python_control.md
 - 016_Python_for.md
 - 017_Functions.md
+markdown_extensions:
+- pymdownx.arithmatex:
+    generic: true
+extra_javascript:
+- javascripts/config.js
 plugins:
-#- git-revision-date-localized
+- git-revision-date-localized
 - exclude:
     glob:
+      - "*blank.tif"
+      - "*.pyc"
+      - "data/Hydrologic_Units/HUC_Lines*"
+      - "geog0111/__pycache__/*"
       - "work/*"
       - "__pycache__"
       - "*.bin"
       - "*.hdf"
+      - "*.store"
       - "*.nc"
       - "*.zip"
       - "*.npz"
       - "data/ucl/*"
       - "*.vrt"
-- search
-#- mkdocs-jupyter:
-#    include_source: true
 
 repo_url: https://github.com/UCL-EO/geog0111
 site_author: Prof P. Lewis
 site_name: GEOG0111
-#site_url: https://ucl-eo.github.io/geog0111
 theme:
-  name: readthedocs
+  logo: images/ucl.png
   favicon: images/ucl.png
-
-#theme:
-#  favicon: images/ucl.png
-#  features:
-#  - search.highlight
-#  - header.hide
-#  name: material
-#theme:
-#   favicon: images/ucl.png
-#   name: material
-#   features:
-#   - search.highlight
-#   - header.hide
+  name: material

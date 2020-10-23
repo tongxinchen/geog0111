@@ -29,6 +29,7 @@ sites = ['https://n5eil01u.ecs.nsidc.org',\
 
 l = Cylog(sites)
 test = l.login()
+
 ```
 
 ### Test
@@ -38,9 +39,32 @@ You can run a test on your login to NASA Earthdata using the information you hav
 
 ```python
 from geog0111.modis import test_login
-do_test=False
+do_test=True
 assert test_login(do_test)
 ```
+
+    --> keeping existing file /shared/groups/jrole001/geog0111/work/e4ftl01.cr.usgs.gov.store
+    --> parsing URLs from html file 1 items
+    --> discovered 1 files with pattern MOLA in https://e4ftl01.cr.usgs.gov/
+    --> keeping existing file /shared/groups/jrole001/geog0111/work/e4ftl01.cr.usgs.gov/MOLA.store
+    --> parsing URLs from html file 1 items
+    --> discovered 1 files with pattern MYD11_L2.006 in https://e4ftl01.cr.usgs.gov/MOLA
+    --> keeping existing file /shared/groups/jrole001/geog0111/work/e4ftl01.cr.usgs.gov/MOLA/MYD11_L2.006.store
+    --> parsing URLs from html file 1 items
+    --> discovered 1 files with pattern 2002.07.04 in https://e4ftl01.cr.usgs.gov/MOLA/MYD11_L2.006
+    --> keeping existing file /shared/groups/jrole001/geog0111/work/e4ftl01.cr.usgs.gov/MOLA/MYD11_L2.006/2002.07.04.store
+    --> parsing URLs from html file 1 items
+    --> discovered 1 files with pattern MYD11_L2*0325*.hdf in https://e4ftl01.cr.usgs.gov/MOLA/MYD11_L2.006/2002.07.04
+    --> trying https://e4ftl01.cr.usgs.gov/MOLA/MYD11_L2.006/2002.07.04/MYD11_L2.A2002185.0325.006.2015142192613.hdf
+    --> trying get
+    --> trying https://e4ftl01.cr.usgs.gov/MOLA/MYD11_L2.006/2002.07.04/MYD11_L2.A2002185.0325.006.2015142192613.hdf
+    --> code 401
+    --> trying another
+    --> getting login
+    --> logging in to https://e4ftl01.cr.usgs.gov/
+    --> data read from https://e4ftl01.cr.usgs.gov/
+    --> code 200
+
 
 ## Reset password
 
@@ -54,7 +78,7 @@ help(Cylog.login)
 
     Help on function login in module geog0111.cylog:
     
-    login(self, site=False, force=False)
+    login(self, site=None, force=False)
         Reads encrypted information from ~/{dest_path}/.cylog.npz
         
         Keyword arguments
@@ -77,6 +101,19 @@ If this fails, you may have entered your account information incorrectly for `ht
 
 If you want to force the code to let you re-enter your credentials (e.g. you got it wrong before, or have changed them, or the test fails), then change the call to:
 
-    cy = cylog(site,force=True)
+    cy = Cylog(sites,force=True)
     
 and re-run.
+
+## Summary
+
+This short notebook is intended to let you store your NASA Earthdata login to make later calls to collect NASA data more straightforward. We have used code from the local class `Cylog` from `geog0111.cylog`, and seen how to setl, reset and test our login.
+
+|  command | purpose  |   
+|---|---|
+| `l = Cylog(sites); test = l.login()`  |  set / run login for list of URLs `sites` |  
+| `cy = Cylog(sites,force=True); test = l.login()`  | reset / run login for list of URLs `sites` |
+| `test_login(True)`  |  test the login by pulling a dataset from the NASA site|  
+
+
+

@@ -48,22 +48,22 @@ subs=('bin' 'data' "$repo" 'images')
 mkdir -p notebooks/work ${subs[*]}
 
 # outer loop 
-for n in ${opdirs[@]}
-do
-  cd $base
-  echo "--> sorting links in $n"
-  mkdir -p "$n"
-  cd ${base}/$n
-  for link in ${subs[@]}
-  do
-    echo "--> $link"
-    rm -f $link
-    # dont link work
-    if [ $link != "work" ]; then
-      ln -s ../$link $link
-    fi
-  done
-done
+#for n in ${opdirs[@]}
+#do
+#  cd $base
+#  echo "--> sorting links in $n"
+#  mkdir -p "$n"
+#  cd ${base}/$n
+#  for link in ${subs[@]}
+#  do
+#    echo "--> $link"
+#    rm -f $link
+#    # dont link work
+#    if [ $link != "work" ]; then
+#      ln -s ../$link $link
+#    fi
+#  done
+#done
 cd "${here}"
 
 echo "--> examining UCLDATA"
@@ -86,11 +86,16 @@ else
 fi
 echo "--> done examining UCLDATA"
 
+isUCL=$(uname -n | awk -Frstudio '{print $2}' | wc -w)
 
 echo "--> examining CACHE_FILE"
 if [ -z "$CACHE_FILE" ] ; then
   echo "--> CACHE_FILE not set"
-  export CACHE_FILE="/shared/groups/jrole001/geog0111/work/database.db"
+  if [ "$isUCL" == 0 ] ; then
+    export CACHE_FILE="${HOME}/.url_db/.db.yml"
+  else
+    export CACHE_FILE="/shared/groups/jrole001/geog0111/work/database.db"
+  fi
 fi
 echo "--> setting CACHE_FILE=$CACHE_FILE"
 touch ~/.profile
@@ -108,12 +113,12 @@ fi
 echo "--> done examining CACHE_FILE"
 
 # UCL data link
-cd $base
-echo "--> sorting link to UCL data store"
-rm -f data/ucl
-cd data
-ln -s $UCLDATA ucl
-echo "--> done"
+#cd $base
+#echo "--> sorting link to UCL data store"
+#rm -f data/ucl
+#cd data
+#ln -s $UCLDATA ucl
+#echo "--> done"
 
 csubs=('docs' 'bin' 'notebooks' 'notebooks_lab')
 # outer loop

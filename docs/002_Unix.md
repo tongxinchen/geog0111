@@ -30,7 +30,12 @@ The code cells in this notebook take Python commands by default, but we can run 
 
 ```python
 !pwd
+
+
 ```
+
+    /nfs/cfs/home3/Uucfa6/ucfalew/geog0111/notebooks
+
 
 or by using the [cell magic](https://ipython.readthedocs.io/en/stable/interactive/magics.html) `%%bash`:
 
@@ -113,6 +118,7 @@ cd ~/geog0111
 ls R*
 ```
 
+    README.add.md
     README.md
 
 
@@ -127,10 +133,10 @@ cd ~/geog0111
 ls -lh README.md
 ```
 
-    -rw-r--r-- 1 ucfalew ucfa 3.4K Sep 21 13:29 README.md
+    -rw-r--r-- 1 ucfalew ucfa 3.3K Oct  5 09:38 README.md
 
 
-Here, the file size if `321B` (321 Bytes), and the file is owned by the user `plewis`. The field `-rw-r--r--` provides information on file permissions. Ignoring the first `-`, it is in 3 sets of 3 bits:
+Here, the file size if `3.3K` (3.3 KBytes), and the file is owned by the user `plewis`. The field `-rw-r--r--` provides information on file permissions. Ignoring the first `-`, it is in 3 sets of 3 bits:
 
     rw-  r--  r--
     
@@ -160,76 +166,6 @@ Following that, we interpret the field `rw-r--r--` from above as `644`. The most
 * what do you notice about these? 
 * why do you think this is so?
 
-
-```bash
-%%bash
-
-# pwd
-pwd
-
-# * examine the file permissions in the directory bin
-ls -lh bin/*
-
-# * what do you notice about these?
-cat << EOF
-===============================
-* what do you notice about these?
-===============================
-Most of them are -rwxr-xr-x, which is 755 so they have read write 
-and execute for the user (7) but only read and execute for others.
-The file bin/README has 644: read and write for the user (6) but
-just read for others.
-EOF
-
-cat << EOF
-===============================
-* why do you think this is so?
-===============================
-Most of these are executable commands (scripts to run).
-The ones that end with .sh will be sh or bash scripts
-
-The README file is not executable: its just a text file.
-EOF
-```
-
-    /nfs/cfs/home3/Uucfa6/ucfalew/geog0111/notebooks
-    lrwxrwxrwx 1 ucfalew ucfa    7 Sep 26 17:20 bin/copy -> ../copy
-    -rwxr-xr-x 1 ucfalew ucfa   43 Sep 26 19:19 bin/database.sh
-    -rwxr-xr-x 1 ucfalew ucfa  217 Sep 21 13:29 bin/docker-build
-    -rwxr-xr-x 1 ucfalew ucfa  428 Sep 21 13:29 bin/docker-killall
-    -rwxr-xr-x 1 ucfalew ucfa 1022 Sep 21 13:29 bin/docker-run
-    -rwxr-xr-x 1 ucfalew ucfa  569 Sep 21 13:29 bin/git-remove-all.sh
-    -rw-rw-r-- 1 ucfalew ucfa  257 Sep 25 17:56 bin/howmany.sh
-    -rwxr-xr-x 1 ucfalew ucfa 1.7K Sep 25 17:50 bin/init.sh
-    -rwxr-xr-x 1 ucfalew ucfa 3.1K Sep 24 09:51 bin/link-set.sh
-    -rwxr-xr-x 1 ucfalew ucfa  855 Sep 27 00:38 bin/mv_vrt.sh
-    -rwxr-xr-x 1 ucfalew ucfa 4.0K Sep 21 13:29 bin/notebook-mkdocs.sh
-    -rwxr-xr-x 1 ucfalew ucfa 2.0K Sep 21 13:29 bin/notebook-run.sh
-    -rwxr-xr-x 1 ucfalew ucfa 1.5K Sep 23 21:28 bin/postBuild
-    -rwxr-xr-x 1 ucfalew ucfa   44 Sep 23 21:54 bin/pullYou
-    -rwxr-xr-x 1 ucfalew ucfa  100 Sep 23 21:54 bin/pushMe
-    -rw-r--r-- 1 ucfalew ucfa   16 Sep 21 13:29 bin/README
-    -rw-r--r-- 1 ucfalew ucfa  271 Sep 23 21:54 bin/set-course.sh
-    -rwxr-xr-x 1 ucfalew ucfa 3.4K Sep 21 13:29 bin/setup.sh
-    -rwxr-xr-x 1 ucfalew ucfa  754 Sep 24 09:13 bin/shellMe.sh
-    -rwxr-xr-x 1 ucfalew ucfa 1.8K Sep 26 22:34 bin/sort-db.sh
-    -rwxr-xr-x 1 ucfalew ucfa  742 Sep 26 20:47 bin/tidy.sh
-    ===============================
-    * what do you notice about these?
-    ===============================
-    Most of them are -rwxr-xr-x, which is 755 so they have read write 
-    and execute for the user (7) but only read and execute for others.
-    The file bin/README has 644: read and write for the user (6) but
-    just read for others.
-    ===============================
-    * why do you think this is so?
-    ===============================
-    Most of these are executable commands (scripts to run).
-    The ones that end with .sh will be sh or bash scripts
-    
-    The README file is not executable: its just a text file.
-
-
 ### `chmod`
 
 We can change file permissions with the command `chmod`. For example:
@@ -243,8 +179,8 @@ ls -lh ../README.md
 chmod 644 ../README.md
 ```
 
-    -rw-r--r-- 1 ucfalew ucfa 3.4K Sep 21 13:29 ../README.md
-    -rwxr-xr-x 1 ucfalew ucfa 3.4K Sep 21 13:29 ../README.md
+    -rw-r--r-- 1 ucfalew ucfa 3.7K Oct  2 18:42 ../README.md
+    -rwxr-xr-x 1 ucfalew ucfa 3.7K Oct  2 18:42 ../README.md
 
 
 First the permissions of the file are 644 as we saw above, then we use `chmod 755` to change to 755, then back again to 644. Most commonly, we will use this later ion to apply execute permission to a file:
@@ -262,7 +198,7 @@ A posix directory name that **starts with** the file separator '/' is called an 
 ls -l ~/geog0111/README.md
 ```
 
-    -rw-r--r-- 1 ucfalew ucfa 3390 Sep 21 13:29 /home/ucfalew/geog0111/README.md
+    -rw-r--r-- 1 ucfalew ucfa 3749 Oct  2 18:42 /home/ucfalew/geog0111/README.md
 
 
 
@@ -274,7 +210,7 @@ A *relative pathname* is one that does not start with `/`  or `~`. It is specifi
 ls -l ../README.md
 ```
 
-    -rw-r--r-- 1 ucfalew ucfa 3390 Sep 21 13:29 ../README.md
+    -rw-r--r-- 1 ucfalew ucfa 3749 Oct  2 18:42 ../README.md
 
 
 Recall that we use `..` to specify 'up one level'. Then:
@@ -324,7 +260,7 @@ EOF
 ls -lh work/n*
 ```
 
-    -rw-r--r-- 1 ucfalew ucfa 73 Sep 27 20:44 work/newererfile.dat
+    -rw-r--r-- 1 ucfalew ucfa 73 Oct  3 17:49 work/newererfile.dat
 
 
 We can also use `cat` to see what is in a file:

@@ -23,13 +23,13 @@ You will need some understanding of the following:
 * [022 Read write files](022_Read_write_files.md)
 * [023 Plotting](023_Plotting.md)
 * [024 Image display](024_Image_display.md)
-* [030_NASA_MODIS_Earthdata](030_NASA_MODIS_Earthdata.md)
-* [031_Numpy](031_Numpy.md)
-* [032_More_numpy](032_More_numpy.md)
+* [030 NASA MODIS Earthdata](030_NASA_MODIS_Earthdata.md)
+* [031 Numpy](031_Numpy.md)
+* [032 More numpy](032_More_numpy.md)
 
 You will need to remember:
 
-* [the SDS in MODIS datasets]((030_NASA_MODIS_Earthdata.md))
+* [the SDS in MODIS datasets](030_NASA_MODIS_Earthdata.md)
 * how to do [`numpy` slicing](032_More_numpy.md#slicing) and numpy functions to get [array statistics](031_Numpy.md#Summary-statistics)
 
 ### Test
@@ -39,7 +39,7 @@ You should run a [NASA account test](004_Accounts.md) if you have not already do
 ## MODIS dataset access
 
 You should by now be able to access MODIS data, either through specifying the URL of the file to download, or through using the `geog0111.modis` library as we have done in [024 Image display](024_Image_display.md#MODIS)
- and [025 NASA MODIS Earthdata](025_NASA_MODIS_Earthdata.md#MOTA).
+ and [030 NASA MODIS Earthdata](030_NASA_MODIS_Earthdata.md).
  
  If we want to access only the local filename and/or SDS information for a particular, we can use the function:
  
@@ -69,6 +69,10 @@ print(files[0])
 print(sds[0])
 ```
 
+    /shared/groups/jrole001/geog0111/work/e4ftl01.cr.usgs.gov/MOTA/MCD15A3H.006/2019.02.10/MCD15A3H.A2019041.h17v03.006.2019050221756.hdf.store
+    ['HDF4_EOS:EOS_GRID:"/shared/groups/jrole001/geog0111/work/e4ftl01.cr.usgs.gov/MOTA/MCD15A3H.006/2019.02.10/MCD15A3H.A2019041.h17v03.006.2019050221756.hdf.store":MOD_Grid_MCD15A3H:Lai_500m']
+
+
     --> initial SDS ['Lai_500m']
     --> retrieving SDS MCD15A3H from database
     --> found SDS names in database
@@ -85,12 +89,6 @@ print(sds[0])
     --> parsing URLs from html file 1 items
     --> discovered 1 files with pattern 2019.02.10 in https://e4ftl01.cr.usgs.gov/MOTA/MCD15A3H.006
     --> keeping existing file /shared/groups/jrole001/geog0111/work/e4ftl01.cr.usgs.gov/MOTA/MCD15A3H.006/2019.02.10.store
-
-
-    /shared/groups/jrole001/geog0111/work/e4ftl01.cr.usgs.gov/MOTA/MCD15A3H.006/2019.02.10/MCD15A3H.A2019041.h17v03.006.2019050221756.hdf.store
-    ['HDF4_EOS:EOS_GRID:"/shared/groups/jrole001/geog0111/work/e4ftl01.cr.usgs.gov/MOTA/MCD15A3H.006/2019.02.10/MCD15A3H.A2019041.h17v03.006.2019050221756.hdf.store":MOD_Grid_MCD15A3H:Lai_500m']
-
-
     --> parsing URLs from html file 1 items
     --> discovered 1 files with pattern MCD15A3H*.h17v03*.hdf in https://e4ftl01.cr.usgs.gov/MOTA/MCD15A3H.006/2019.02.10
     --> keeping existing file /shared/groups/jrole001/geog0111/work/e4ftl01.cr.usgs.gov/MOTA/MCD15A3H.006/2019.02.10/MCD15A3H.A2019041.h17v03.006.2019050221756.hdf.store
@@ -265,7 +263,7 @@ fig.colorbar(im, ax=axs)
 
 
 
-    <matplotlib.colorbar.Colorbar at 0x7f67ffdbaf90>
+    <matplotlib.colorbar.Colorbar at 0x7f01deb99690>
 
 
 
@@ -437,7 +435,7 @@ fig.colorbar(im, ax=axs)
 
 
 
-    <matplotlib.colorbar.Colorbar at 0x7f67f4888690>
+    <matplotlib.colorbar.Colorbar at 0x7f01cf5f70d0>
 
 
 
@@ -516,7 +514,7 @@ fig.colorbar(im, ax=axs)
 
 
 
-    <matplotlib.colorbar.Colorbar at 0x7f67fefa3610>
+    <matplotlib.colorbar.Colorbar at 0x7f01e044b0d0>
 
 
 
@@ -538,3 +536,51 @@ We have started to do some fuller geospatial processing now. WE have seen how to
 We have also seen some utility functions to aid our use of these data: `Modis.get_files` to get the SDS or filenames for a particular configuration, and `Modis.get_modis` and to get a `gdal` VRT file with mosaiced tiles and vector masking.
 
 You should make sure that you are able to use one or more of these methods to obtain a numpy array with a MODIS datatset for a particular place and time.
+
+Remember:
+
+
+Modis library: 
+
+            from  geog0111.modis import Modis
+            modis = Modis(**kwargs)
+            
+
+            kwargs = {
+                'tile'      :    ['h17v03'],
+                'product'   :    'MCD15A3H',
+                'sds'       :    'Lai_500m',
+            }
+
+
+| function|comment|example|
+|---|---|---|
+| `modis.get_data(year,doy)` | Dictionary of 2D data arrays by SDS key for MODIS product for year `year` and day of year `doy` | `idict = modis.get_data(2019,41)`|
+|`modis.get_files(year,doy)`| Filename and SDS list of MODIS product for year `year` and day of year `doy` | `files, sds = modis.get_data(2019,41)`|
+|`modis.get_modis(year,doy,warp_args=warp_args)` | Dictionary of 2D/3D data arrays by SDS key for MODIS product for year `year` and day of year `doy`, warped by `warp_args` (see `gdal.Warp()`). Note that `doy` can be list of `doys` or wildcard. If > 1 band, then dataset is 3D and key `bandnames` included |
+            
+`gdal`:
+
+
+|function|comment|example and keywords|
+|---|---|---|
+|`g = gdal.Open(filename)` | Open geospatial file `filename` and return `gdal` object `g` (`None` if file not opened correctly)|
+|`g.GetSubDatasets()` | Get list of sub-datasets from `gdal` object `g`| 
+|`g.ReadAsArray(c0,r0,nc,nr)` | Read dataset from `gdal` object `g` into array. Form `c0` for `nc` columns and `r0` for `nr` rows. Set as `None` for defaults or don't give.|
+|`gdal.BuildVRT(ofile, sds)` | create `gdal` VRT (wrapper) file called `ofile` for SDS/file `sds` | `files,sds = modis.get_files(year,doy)`|
+||| `separate=True` for separate bands |
+||| `ofile = f"work/stitch_full_{year}_{doy:03d}.vrt"`|
+|||`stitch_vrt = gdal.BuildVRT(ofile, sds[0])`|
+|`gdal.Info(f)` | Print information about geospatial file `f` ||
+| `gdal.Warp(ofile,ifile)` | Warp `ifile` to `ofile` with keyword parameters | Keywords: 
+|||`format = 'MEM'` or `format = 'GTiff'` : output format|
+||| `options=['COMPRESS=LZW']` : compression option for GTiff etc.
+||| `dstNodata=255`: no data value |
+||| `cropToCutline = True` : whether to crop to cutline or bounds |
+||| `cutlineDSName = 'data/TM_WORLD_BORDERS-0.3.shp'` : vector dataset for cutline|
+||| `cutlineWhere = "FIPS='UK'"` : identifier information for cutline 
+|`g.FlushCache()` | flush open `gdal` object `g` (force write to file) |
+
+
+
+

@@ -316,12 +316,207 @@ for k,d in days_in_month.items():
 * use `.items()` as above to loop over each year, and print the year name and the zodiac name with an f-string of the form: `f'{y} is the year of the {z}'`, assuming `y` is the key and `z` the item.
 * Describe what you are doing at each step
 
+## list comprehensions 
+
+So far, we have dealt with explicit `for` loops of the form:
+
+        for x in alist:
+            ...
+            
+This is very flexible, allows us to put multiple items in the loop, nest conditional or other statements and is the standard looping structure in Python. 
+
+Quite often though, we want to gather the information processed in the loop into a list. One way to do this is:
+
+        # initiate list called blist
+        blist = []
+        
+        # loop over items in list alist
+        for x in alist:
+        
+            # call function `a_function with argument b
+            b = a_function(x)
+            
+            # append b to blist
+            blist.append(b)
+ 
+ This is quite explicit in what is going on, and contains good comments on the process, but it is not at all an *elegant* piece of code, and is overly-complicated for what it achieves.
+ 
+ We have mentioned the word [Pythonic](https://towardsdatascience.com/how-to-be-pythonic-and-why-you-should-care-188d63a5037e) previously, meaning taking advantage of the (elegant) features of the programming language to write beautiful code. It is perhaps worth introducing the following Python [Easter egg](https://en.wikipedia.org/wiki/Easter_egg_(media)) at this point, from [PEP20](https://www.python.org/dev/peps/pep-0020/):
+
+
+```python
+import this
+```
+
+    The Zen of Python, by Tim Peters
+    
+    Beautiful is better than ugly.
+    Explicit is better than implicit.
+    Simple is better than complex.
+    Complex is better than complicated.
+    Flat is better than nested.
+    Sparse is better than dense.
+    Readability counts.
+    Special cases aren't special enough to break the rules.
+    Although practicality beats purity.
+    Errors should never pass silently.
+    Unless explicitly silenced.
+    In the face of ambiguity, refuse the temptation to guess.
+    There should be one-- and preferably only one --obvious way to do it.
+    Although that way may not be obvious at first unless you're Dutch.
+    Now is better than never.
+    Although never is often better than *right* now.
+    If the implementation is hard to explain, it's a bad idea.
+    If the implementation is easy to explain, it may be a good idea.
+    Namespaces are one honking great idea -- let's do more of those!
+
+
+A more elegant way to write a simple loop code that results in a list, is to use a feature called [list comprehensions](https://www.programiz.com/python-programming/list-comprehension).
+
+The basic syntax to replace what we saw above is:
+
+            [a_function(x) for x in alist]
+            
+     
+which returns a list with the function `a_function(x)` applied to each element in the list `alist`. Some examples:
+
+
+```python
+# x^2 for integers 0,...,9
+# First, using full for loop
+blist = []
+for  x in range(10):
+    blist.append(x*x)
+    
+blist
+```
+
+
+
+
+    [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+
+
+
+```python
+# x^2 for integers 0,...,9
+# list comprehension
+[x*x for x in range(10)]
+```
+
+
+
+
+    [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+
+
+We can apply conditional statements in a list comprehension. The syntax is:
+
+            [a_function(x) for x in alist if condition]
+
+or, if an `else` is required
+
+            [a_function(x) if condition else b_function(x) for x in alist]
+
+
+
+```python
+adict = {"first": "gold","second": "silver","third": "bronze"}
+alist = ["gold","silver","bronze"]
+
+# given a list of items of strings and integers, interpret
+# position as a list of Olympic medal types
+# the positions may be integers 1,2,3 or strings
+# "first", "second", "third"
+
+# an example input list
+items = ["first",1,3,"third",2,"second"]
+```
+
+
+```python
+# first, as a full for / if set
+blist = []
+for v in items:
+    if type(v) == str:
+        # look it up in the dictionary
+        blist.append(adict[v])
+    else:
+        # get from list
+        # index for list is v-1
+        blist.append(alist[v-1])
+        
+print(f'{items} ->\n{blist}')
+```
+
+    ['first', 1, 3, 'third', 2, 'second'] ->
+    ['gold', 'gold', 'bronze', 'bronze', 'silver', 'silver']
+
+
+
+```python
+# now using list comprehension
+[adict[v] if (type(v) == str) else alist[v-1] for v in items]
+```
+
+
+
+
+    ['gold', 'gold', 'bronze', 'bronze', 'silver', 'silver']
+
+
+
+This is such a common type of expression that you will find lots of cases you will use a list comprehension. Don't make them too complicated however, as you may defeat the purpose of making it elegant, and instead make it simply unreadable.
+
+Consider using them whenever you have a simple expression in a list. You can nest these expressions (i.e. put one inside the other) but again, and that can be an elegant solution, but be wary of making the code an unreadable mess.
+
+#### Exercise 6
+
+* Use a list comprehension to generate a list of squared numbers from $0^2$ to $10^2$
+
 ## Summary
 
-We should know know how to use `if` statements in Python to control program flow. We can make choices as to what happens in the code, depending on whether or not one or more tests are passed. This is a common feature of all coding languages, but it is important here that you get used to doing this in Python.
+We should now know how to use `for` statements in Python to control program flow. This is a common feature of all coding languages, but it is important here that you get used to doing this in Python.
 
-We know that conditions inside `if` statements use indentation in Python, and we know to be careful in our use of this. We have learnt about `enumerate()` and `range()`.
+We know that conditions inside `for` statements use indentation in Python, and we know to be careful in our use of this. We have learnt about `enumerate()` and `range()`.
 
 We have also seen the use of `assert` to do some checking that our code is correct.
 
 There are additional notes in [docs.python.org](https://docs.python.org/3/tutorial/controlflow.html#the-range-function) you can follow up to deepen your understanding of these topics. You can get more practice with `assert` at [w3schools](https://www.w3schools.com/python/ref_keyword_assert.asp).
+
+
+| Command | Comment | Example | Result| 
+|---|---|---|---|
+|  `for item in list:` | loop, setting `item` to each value in `list` sequentially| see Example 1|
+| `for key,value in list_of_tuples:`|loop, setting `a,b` to each value in list of tuples | See Example 2: `list({"a":7,"b":3}.items())` | `[('a', 7), ('b', 3)]`|
+| `range(start,stop,step)` | index iterator from `start` to `stop` in steps of `step`| `list(range(1,6,2))`| `[1, 3, 5]` |
+|`enumerate(list)`| provide index of `list` | `list(enumerate(['a','b','c']))` | `[(0, 'a'), (1, 'b'), (2, 'c')]`|
+| `assert condition` | test that condition is `True`, exit otherwise | `assert True` ||
+| `[f(x) for x in alist]` | list comprehension, applying `f(x)` to each item `x` in `alist` | `[i*i for i in range(3)]` | `[0, 1, 4]`
+|`[af(x) for x in alist if ca(x)]` | list comprehension with conditional statement, applying `af(x)` to each element `x` in `alist` if `ca(x)` is `True`| `[i for i in range(11) if i%2]` | `[1, 3, 5, 7, 9]`
+|`[af(x) if ca(x) else bf(x) for x in alist]` | list comprehension with conditional statement, applying `af(x)` to each element `x` in `alist` if `ca(x)` is `True`, otherwise applying `bf(x)` | `[i if i%2 else 0 for i in range(4)]` | `[0, 1, 0, 3]`
+
+**Example 1:**
+
+        for item in [1,2,3]:
+            # print item in loop
+            print(item)
+    
+Result:
+
+        1
+        2
+        3
+
+
+**Example 2:**
+
+        for key,value in {"a":7,"b":3}.items():
+            print(f'key is {key}, value is {value}')
+            
+Result:
+
+        key is a, value is 7
+        key is b, value is 3

@@ -55,7 +55,7 @@ as the first line in the file, and is executable. We can see if a file is execut
 !ls -l geog0111/helloWorld.py
 ```
 
-    -rwxr-xr-x 1 ucfalew ucfa 514 Sep 21 13:29 geog0111/helloWorld.py
+    -rwxr-xr-x  1 plewis  staff  514  8 Oct 19:46 [31mgeog0111/helloWorld.py[m[m
 
 
 The first field gives us the file permissions:
@@ -71,7 +71,7 @@ chmod 755 geog0111/helloWorld.py
 ls -l geog0111/helloWorld.py
 ```
 
-    -rwxr-xr-x 1 ucfalew ucfa 514 Sep 21 13:29 geog0111/helloWorld.py
+    -rwxr-xr-x  1 plewis  staff  514  8 Oct 19:46 geog0111/helloWorld.py
 
 
 ### Running Python code from Python
@@ -91,7 +91,6 @@ Another thing we can do is to `import` the code from the Python file into Python
 
 ```python
 from geog0111.helloWorld import helloWorld
-
 helloWorld()
 ```
 
@@ -258,6 +257,22 @@ geog0111/helloWorld.py
 
 To do the task below, you will need to invoke a text editor of some sort to create the Python file. There are several ways you can do this, depending on how you are using these notebooks.
 
+
+### Jupyter notebook
+
+If you are in the GEOG0111 class, you will most likely be using the notebook server. In this case, follow these instructions:
+
+You can open a text editor from a Jupyter notebook server from the menu on the right hand side of the Jupyter homepage window:
+
+![](images/te.png)
+
+You can change file permissions using a command similar to that above (here, set for execute):
+
+        from pathlib import Path
+        Path(MYFILE).chmod(int('755', base=8))
+        
+        
+
 ### From JupyterLab
 
 If you are using this notebook in JupyterLab, go to the launcher tab and you should see various tools that you can launch:
@@ -276,16 +291,10 @@ To change the permissions on the file from JupyterLab, open a shell (e.g. using
     
 ![JupyterLab terminal](images/term.png)
 
-### Jupyter notebook
-
-You can open a text editor from a Jupyter notebook server from the menu on the right hand side of the window:
-
-![](images/te.png)
-
 
 ### Use a text editor
 
-To do the task below, you will need to invoke a text editor of some sort to create the Python file. Ideally, you should learn to do this outside of the notebook: invoke a text editor on your computer, put your Python code into the file, and save it to the desired location.
+To do the task below, you will need to invoke a text editor of some sort to create the Python file. 
 
 ### Create in bash
 
@@ -336,6 +345,9 @@ chmod 755 work/myHelloWorld.py
 ```
 
 This should have created a file called `work/myHelloWorld.py` and made it executable (using bash to call chmod, rather than doing it in Python as above). 
+
+**Be aware that backquotes `` have a special meaning in `bash`, so make sure you do not copy any backquotes from the text in these documents when you use them in `bash`.**
+
 
 Now run it as above:
 
@@ -473,7 +485,7 @@ chmod 755 work/hello.py
 
 
 ```python
-# run coxde
+# run code
 %run work/hello.py
 ```
 
@@ -503,7 +515,7 @@ import sys
 print(sys.argv)
 ```
 
-    ['/shared/groups/jrole001/geog0111/envs/geog0111/lib/python3.7/site-packages/ipykernel_launcher.py', '-f', '/nfs/cfs/home3/Uucfa6/ucfalew/.local/share/jupyter/runtime/kernel-0b59f88f-3901-4e76-bd87-7331f3b34bef.json']
+    ['/Users/plewis/anaconda3/envs/geog0111/lib/python3.7/site-packages/ipykernel_launcher.py', '-f', '/Users/plewis/Library/Jupyter/runtime/kernel-68697deb-b842-43cd-a11f-4edaa8a97834.json']
 
 
 Running from the notebook, we get to see the full command that is run when we launch this notebook. Since `sys` is a package, we first import it:
@@ -520,9 +532,37 @@ Lets see how this applies to running our own code. We generate a short test scri
 
 cat << EOF > work/test.py
 #!/usr/bin/env python
+# -*- coding: utf-8 -*- 
+
 import sys
 
-print(sys.argv)
+'''
+helloWorld
+
+Purpose:
+
+  function print the string 'hello world'
+
+'''
+__author__    = "P Lewis"
+__copyright__ = "Copyright 2020 P Lewis"
+__license__   = "GPLv3"
+__email__     = "p.lewis@ucl.ac.uk"
+
+def hello(name):
+    '''
+    function to print 'hello from {name}'
+    '''
+    print(f'hello from {name}')
+    
+# example calling the function    
+def main(name):
+    hello(name)
+
+if __name__ == "__main__":
+    # execute only if run as a script
+    # only pass argv[1] here
+    main(sys.argv[1])
 EOF
 
 # Chmod 755 to make the file executable
@@ -534,14 +574,18 @@ chmod 755 work/test.py
 %run work/test.py Hermione
 ```
 
-    ['work/test.py', 'Hermione']
+    hello from Hermione
 
 
 We see that running the script:
 
     work/test.py Hermione
     
-means that `sys.argv` inside the script contains the liust `['work/test.py', 'Hermione']`.
+means that `sys.argv` inside the script contains the list `['work/test.py', 'Hermione']`.
+
+## Formative assessment
+
+To get some feedback on how you are doing, you should complete and submit the formative assessment [061 Script](061_Script.md).
 
 ## Summary
 
@@ -565,3 +609,55 @@ We have also seen how we can use
 in a bash script to generate and document our Python files, though we would also typically edits the file through some text editor.
 
 We have seen how to run a Python script from a notebook, using `%run` or via a bash shell with `%%bash`. We have seen that to 'run' a Python script, we need to change the file permissions iusing `chmod`, either in `bash` or using `Path().chmod()`. We have used the octal code `755` to change the file permissions for execution.
+
+Remember:
+
+
+
+|Command| Comment| Example| Result|
+|---|---|---|---|
+|`!unix_cmd` | Run unix command `unix_cmd` from Jupyter code cell | `!geog0111/helloWorld.py`| `hello world`|
+|| | `!ls -l geog0111/helloWorld.py`| `-rwxr-xr-x 1 ucfalew ucfa 514 Oct  1 13:10 geog0111/helloWorld.py`|
+|`%%bash` | Turn Jupyter Python code cell into `bash` cell | `%%bash` | | 
+| | | `chmod 755 geog0111/helloWorld.py`
+| | |`ls -l geog0111/helloWorld.py` | `-rwxr-xr-x 1 ucfalew ucfa 514 Oct  1 13:10 geog0111/helloWorld.py`|
+| `%run script.py` | Run Python script `script.py` from Jupyter code cell| `%run geog0111/helloWorld.py` | `hello world`|
+|     `cat << XX > YY; XX` | Put  marker `XX` in bash script and send text up to `XX` into file `YY` | `cat << EOF > work/file.py` |
+|||    `hello world` | `cat work/file.py`
+|||    `EOF` | `hello world`|
+
+Form of a Python script:
+
+
+            #!/usr/bin/env python
+            # -*- coding: utf-8 -*- 
+
+            '''
+            helloWorld
+
+            Purpose:
+
+              function print the string 'hello world'
+
+            '''
+
+            __author__    = "P Lewis"
+            __copyright__ = "Copyright 2020 P Lewis"
+            __license__   = "GPLv3"
+            __email__     = "p.lewis@ucl.ac.uk"
+
+            def helloWorld():
+                '''
+                function to print the string 'hello world'
+
+                '''
+                print('hello world')
+
+
+            # example calling the function
+            def main():
+                helloWorld()
+
+            if __name__ == "__main__":
+                # execute only if run as a script
+                main()
